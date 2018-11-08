@@ -1,0 +1,36 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Tech Of The Day{% endblock %}
+
+
+{% block content %}
+{% for post in posts %}
+
+{% ifequal Post.page Post.CHOICE1 %}
+<div class="c-compact-river__entry">
+  <div class="blog-entry">
+          <a href="{{ post.get_absolute_url }}" class="image-wrapper">
+          <div class="blog-img">
+          <div class="c-entry-box--compact__image">
+          {% if post.image %}
+            <img class="c-dynamic-image lazy-image lazy-loaded img-responsive" src="{{ post.image.url }}">
+          {% endif %}
+        </div>
+          </div>
+          </a>
+          <div class="c-entry-box--compact__body">
+            <div class="c-entry-box--compact__title" >
+            <h3><a href="{{ post.get_absolute_url }}"><b>{{ post.title }}</b></a></h3>
+            </div>
+          <div class="c-byline" >
+              <p class="date" style="line-height:2; font-size: 14px; text-transform:uppercase; font-family: "Roboto", Arial, sans-serif;"><b>Event</b> {{ post.publish }} by <b>{{ post.author }}</b> </p>
+            <!--  {{ post.body|truncatewords:10|linebreaks }} -->
+          </div>
+
+        </div>
+</div>
+</div>
+{% endifequal %}
+{% endfor %}
+{% include "pagination.html" with page=posts %}
+{% endblock %}

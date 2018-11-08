@@ -1,0 +1,97 @@
+{% extends "blog/base.html" %}
+{% load blog_tags %}
+
+
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<head>
+<style>
+body{
+  line-height: 2.2em;
+}
+.header_image{
+  display: none;
+}
+.l-col__main{
+  width:100%;
+}
+.l-col__sidebar{
+display:none;
+width:20%;
+margin-left: 10%;
+}
+.tinymce{
+  width:70%;
+  white-space: normal;
+  margin: 5%;
+}
+h1{
+  color: #505050;
+  font-size: 2em;
+  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  margin-top:5%;
+  text-align:center;
+  white-space: normal;
+}
+.blogmage{
+  margin-left:5%;
+}
+@media (max-width:800px){
+  .tinymce{
+    width:90%;
+    margin: 5%;
+  }
+  h1{
+    font-size: 1.2em;
+  }
+  .blogmage{
+    margin:5%;
+    width:90%;
+  }
+}
+</style>
+</head>
+<body>
+  <h1>{{ post.title }}</h1>
+  <p class="date" style="text-align:center;">Published {{ post.publish }} by {{ post.author }}</p>
+
+  <br>
+  <hr>
+  {% if post.image %}
+    <img class="blogmage" src="{{ post.image.url }}">
+  {% endif %}
+  <hr>
+  <div class="tinymce">
+  {{ post.body| safe }}
+  </div>
+  <hr>
+  <div style="margin-left:5%;">
+  {% with comments.count as total_comments %}
+    <h2>{{ total_comments }}<b>Comments:</b>{{ total_comments|pluralize }}</h2>
+  {% endwith %}
+
+  {% for comment in comments %}
+    <div class="comment">
+      <p class="info">Comment {{ forloop.counter }} by {{ comment.name }} {{ comment.created }}</p>
+      {{ comment.body|linebreaks }}
+    </div>
+  {% empty %}
+    <p><br>There are no comments yet.</p>
+  {% endfor %}
+
+  {% if new_comment %}
+    <h2>Your comment has been added.</h2>
+  {% else %}
+  <br>
+    <form action="." method="post">
+      {{ comment_form.as_p }}
+      {% csrf_token %}
+      <p><input type="submit" class="btn btn-primary" value="Add comment"></p>
+    </form>
+  {% endif %}
+</div>
+</body>
+  {% endblock %}

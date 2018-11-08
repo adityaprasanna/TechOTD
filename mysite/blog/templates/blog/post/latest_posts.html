@@ -1,0 +1,23 @@
+<ul>
+  {% for post in latest_posts %}
+  <div class="c-compact-river__entry" style="height:100px;">
+
+    <li>  <a href="{{ post.get_absolute_url }}" class="image-wrapper">
+      <div class="c-entry-box--compact__image">
+      {% if post.image %}
+        <img class="c-dynamic-image lazy-image lazy-loaded" src="{{ post.image.url }}">
+      {% endif %}
+      </div>
+
+      </a>
+      <div class="c-entry-box--compact__body">
+
+          <h2 style="color: #505050;font-size: 0.9em;font-weight: 500;font-family: 'Nunito', sans-serif;" class="c-entry-box--compact__title">
+              <a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:3}}</a>
+              <p style="color: #505050;font-size: 0.7em;">{{ post.publish }}</p>
+            </h2>
+      </div>
+</li>
+</div>
+  {% endfor %}
+</ul>
